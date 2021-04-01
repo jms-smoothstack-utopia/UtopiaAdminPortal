@@ -1,17 +1,41 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, TextInput, StyleSheet } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
+import { AuthService } from "../services/authService"
+
+
 
 //Need to do MediaQuery
 import "@expo/match-media";
 import { useMediaQuery } from "react-responsive";
 
-//TODO: Change the type of this to a more appropriate type
 const LoginScreen = ({ navigation }: any) => {
+
     const [email, setEmail] = React.useState("");
     const [password, setPassword] = React.useState("");
+    const [errorMsg, setErrorMsg] = React.useState("");
+    const [showErrorMsg, setShowErrorMsg ] = React.useState(false);
+    const authService = new AuthService();
 
-    const login = () => console.log("hello");
+    const login = () => {
+        if (!validateLoginInfo()) {
+            setShowErrorMsg(true);
+            return;
+        }
+        authService.login(email, password);
+        //navigation.replace("Home");
+    }
+
+    //Simple validation to check if email or password is blanked
+    const validateLoginInfo = () => {
+        setShowErrorMsg(false);
+        setErrorMsg("");
+        if (email == "" || password == ""){
+            setErrorMsg("Fields cannot be empty");
+            return false;
+        }
+        return true;
+    }
 
     const isTabletOrMobileDevice = useMediaQuery({
         query: "(max-device-width: 1224px)"
@@ -21,12 +45,14 @@ const LoginScreen = ({ navigation }: any) => {
         <View style={styles.container}>
             <LinearGradient colors={['#1508AF', '#8E2AE3']} style={styles.background}>
                 <Text style={styles.titleText}>UTOPIA ADMIN</Text>
+                {showErrorMsg ? <View style={styles.errorBox}><Text style={styles.errorText}>{errorMsg}</Text></View> : null}
                 <View style= {isTabletOrMobileDevice? styles.inputView : styles.desktopView}>
-                    <TextInput 
+                    <TextInput
+                    autoCapitalize="none"
                     style={styles.inputText}
                     placeholder="Email"
                     placeholderTextColor="grey"
-                    onChangeText = {text => setEmail(text)}
+                    onChangeText={setEmail}
                     />
                 </View>
                 <View style= {isTabletOrMobileDevice? styles.inputView : styles.desktopView}>
@@ -35,7 +61,7 @@ const LoginScreen = ({ navigation }: any) => {
                     style={styles.inputText}
                     placeholder="Password"
                     placeholderTextColor="grey"
-                    onChangeText = {text => setPassword(text)}
+                    onChangeText={setPassword}
                     />
                 </View>
                 <TouchableOpacity 
@@ -60,6 +86,24 @@ const styles = StyleSheet.create({
         alignItems:'center',
         justifyContent: 'center',
     },
+    errorBox: {
+        justifyContent: "center",
+        alignItems: "center",
+        marginBottom: 20,
+        width: "80%",
+        padding: 10,
+        borderRadius: 10,
+        backgroundColor: "white",
+        borderColor: "red",
+        borderStyle: "solid",
+        borderWidth: 3,
+    },
+    errorText:{
+        fontFamily: "Lato-Bold",
+        color:"red",
+        fontWeight: "bold",
+        fontSize: 16,
+    },
     inputView: {
         width: "80%",
         backgroundColor: "#FFFFFF",
@@ -82,7 +126,7 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
         fontSize: 30,
         color: "#FFFFFF",
-        marginBottom: 40
+        marginBottom: 20
     },
     loginButton: {
         width: "80%",
