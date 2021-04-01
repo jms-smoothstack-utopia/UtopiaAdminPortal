@@ -59,6 +59,6 @@ export class AuthService {
   }
 
   private handleAuthenticationSuccess(res: AuthResponse, userEmail: String) {
-    console.debug("Autehentication response", res);
+    console.debug("Authentication response", res);
   }
 }
