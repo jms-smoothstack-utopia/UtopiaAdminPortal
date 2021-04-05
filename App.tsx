@@ -10,6 +10,9 @@ import PlaneScreen from "./components/PlaneScreen";
 import FlightScreen from "./components/FlightScreen";
 import CreateAirplaneScreen from "./components/CreateAirplaneScreen";
 
+//Interceptors
+import HttpInterceptors from "./services/HttpInterceptors"
+
 //FontAwesomeIcon
 import { library } from '@fortawesome/fontawesome-svg-core';
 import {  faPlane, faMapPin, faCity, faShuttleVan, faCog } from "@fortawesome/free-solid-svg-icons";
@@ -27,6 +30,8 @@ const App = () => {
   if (!isLoadingComplete){
     return null;
   }
+
+  HttpInterceptors.intercept();
 
   return (
     <NavigationContainer>

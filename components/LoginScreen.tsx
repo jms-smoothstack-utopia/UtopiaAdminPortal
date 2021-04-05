@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, TextInput, StyleSheet } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import { AuthService } from "../services/authService"
+import { AuthService } from "../services/AuthService";
 
 
 
@@ -22,8 +22,15 @@ const LoginScreen = ({ navigation }: any) => {
             setShowErrorMsg(true);
             return;
         }
-        authService.login(email, password);
-        //navigation.replace("Home");
+        let authResponse = authService.login(email, password);
+        authResponse.then(() => {
+            console.debug("Successfully logged in");
+            navigation.replace("Home");
+        }).catch((error) => {
+            console.log("There was an error: " + error);
+            setErrorMsg("Invalid email/password");
+            setShowErrorMsg(true);
+        })
     }
 
     //Simple validation to check if email or password is blanked
@@ -45,7 +52,7 @@ const LoginScreen = ({ navigation }: any) => {
         <View style={styles.container}>
             <LinearGradient colors={['#1508AF', '#8E2AE3']} style={styles.background}>
                 <Text style={styles.titleText}>UTOPIA ADMIN</Text>
-                {showErrorMsg ? <View style={styles.errorBox}><Text style={styles.errorText}>{errorMsg}</Text></View> : null}
+                {showErrorMsg ? <View style= {isTabletOrMobileDevice? styles.errorBox : styles.desktopViewError}><Text style={styles.errorText}>{errorMsg}</Text></View> : null}
                 <View style= {isTabletOrMobileDevice? styles.inputView : styles.desktopView}>
                     <TextInput
                     autoCapitalize="none"
@@ -93,7 +100,7 @@ const styles = StyleSheet.create({
         width: "80%",
         padding: 10,
         borderRadius: 10,
-        backgroundColor: "white",
+        backgroundColor: "rgba(255, 0, 0, 0.2)",
         borderColor: "red",
         borderStyle: "solid",
         borderWidth: 3,
@@ -102,7 +109,7 @@ const styles = StyleSheet.create({
         fontFamily: "Lato-Bold",
         color:"red",
         fontWeight: "bold",
-        fontSize: 16,
+        fontSize: 18,
     },
     inputView: {
         width: "80%",
@@ -163,5 +170,18 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         marginTop: 40,
         marginBottom: 10,
+    },
+    desktopViewError: {
+        justifyContent: "center",
+        alignItems: "center",
+        marginBottom: 20,
+        width: "30%",
+        padding: 10,
+        borderRadius: 10,
+        backgroundColor: "rgba(255, 0, 0, 0.2)",
+        borderColor: "red",
+        borderStyle: "solid",
+        borderWidth: 3,
     }
+
 });
