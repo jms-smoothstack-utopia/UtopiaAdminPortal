@@ -99,9 +99,6 @@ const CreateAirplaneScreen = ({navigation}: any) => {
             planeService.AddAirplane(planeDTO).then(() => {
                 console.debug("Successfully added airport");
                 setShowSuccessMsg(true);
-                // setTimeout(() => {
-                //     navigation.popToTop();
-                // }, 3000);
             }).catch((error) => {
                 setNameErrorMsg("There was a problem. Please try again.");
                 setShowNameError(true);

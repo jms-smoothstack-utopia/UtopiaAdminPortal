@@ -27,7 +27,7 @@ export class PlaneService{
                 const response = await axios.get(this.AIRPLANE_URL);
                 return response;
             } catch (error){
-                console.debug([error]);
+                console.debug(error);
                 throw error;
             }
         }

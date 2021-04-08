@@ -9,6 +9,7 @@ import HomeScreen from "./components/HomeScreen";
 import PlaneScreen from "./components/PlaneScreen";
 import FlightScreen from "./components/FlightScreen";
 import CreateAirplaneScreen from "./components/CreateAirplaneScreen";
+import CreateFlightScreen from "./components/CreateFlightScreen";
 
 //Interceptors
 import HttpInterceptors from "./services/HttpInterceptors"
@@ -41,6 +42,7 @@ const App = () => {
         <Stack.Screen name="Airplanes" component={PlaneScreen} />
         <Stack.Screen name="Create Airplane" component={CreateAirplaneScreen}/>
         <Stack.Screen name="Flights" component={FlightScreen} />
+        <Stack.Screen name="Create Flight" component={CreateFlightScreen}/>
       </Stack.Navigator>
     </NavigationContainer>
   );
