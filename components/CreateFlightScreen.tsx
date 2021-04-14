@@ -175,7 +175,7 @@ const CreateFlightScreen = ({navigation}: any) => {
         if (airplaneList.length != 0){
             let items = [];
             for(let i = 0; i < airplaneList.length;i++){
-                items.push(<Picker.Item label={airplaneList[i].label} value={airplaneList[i].key}/>)
+                items.push(<Picker.Item key={i} label={airplaneList[i].label} value={airplaneList[i].key}/>)
             }
             return items;
         }
@@ -185,7 +185,7 @@ const CreateFlightScreen = ({navigation}: any) => {
         if(airportList.length != 0){
             let items = [];
             for (let i = 0; i < airportList.length; i++){
-                items.push(<Picker.Item label={airportList[i].label} value={airportList[i].label}/>)
+                items.push(<Picker.Item key={i} label={airportList[i].label} value={airportList[i].label}/>)
             }
             return items;
         }
@@ -333,6 +333,7 @@ const CreateFlightScreen = ({navigation}: any) => {
                     <TouchableOpacity style={styles.submitButton} onPress={submitFlight} disabled={showGetError}>
                         <Text style={styles.buttonText}>SUBMIT</Text>
                     </TouchableOpacity>
+                    {showSuccessMsg ? <View style= {isTabletOrMobileDevice? styles.successBox : styles.desktopViewSuccess}><Text style={styles.successText}>Successfully added!</Text></View> : null}
                 </View>
         </ScrollView>
     </SafeAreaView>
@@ -461,8 +462,9 @@ const styles = StyleSheet.create({
         marginTop: 10
     },
     dropDown: {
-        width: "100%",
+        width: "80%",
         justifyContent: "center",
+        marginBottom: 10,
     },
     inputNumber:{
         fontFamily: "Lato-Bold",

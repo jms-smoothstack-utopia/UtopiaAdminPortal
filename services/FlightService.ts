@@ -1,4 +1,5 @@
 import axios from "axios";
+import * as DocumentPicker from 'expo-document-picker';
 import { environment } from "../environment/environment";
 
 export interface CreateFlightDto{
@@ -40,5 +41,23 @@ export class FlightService{
             }
         }
         return addFlight(RequestBody);
+    }
+
+    deleteFlight(id: number){
+        console.debug("Attempting to delete a flight with id " + id);
+        const deleteFlightFromDatabase = async(flightId: number) => {
+            try{
+                const response = await axios.delete(this.FLIGHT_URL + "/" + flightId);
+                return response;
+            } catch(error){
+                console.debug(error);
+                throw error;
+            }
+        }
+        return deleteFlightFromDatabase(id);
+    }
+
+    parseCSV(file: DocumentPicker.DocumentResult){
+        
     }
 }

@@ -54,7 +54,7 @@ const PlaneScreen = ({navigation}:any) => {
                     <Text style={styles.titleText}>Current airplanes</Text>
             </View>
             <View style={styles.bottomContainer}>
-            {showErrorMsg? <Text style={styles.errorMsg}>{ planeErrorMsg }</Text> : <FlatList style={styles.flatList} data={planeList} renderItem={({item}:any) => airplaneView(item)}/>}
+            {showErrorMsg? <Text style={styles.errorMsg}>{ planeErrorMsg }</Text> : <FlatList keyExtractor={(item, index) => index.toString()} style={styles.flatList} data={planeList} renderItem={({item}:any) => airplaneView(item)}/>}
             </View>
         </SafeAreaView>
     )

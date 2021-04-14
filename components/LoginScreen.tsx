@@ -3,8 +3,6 @@ import { View, Text, TouchableOpacity, TextInput, StyleSheet } from 'react-nativ
 import { LinearGradient } from 'expo-linear-gradient';
 import { AuthService } from "../services/AuthService";
 
-
-
 //Need to do MediaQuery
 import "@expo/match-media";
 import { useMediaQuery } from "react-responsive";
@@ -23,7 +21,12 @@ const LoginScreen = ({ navigation }: any) => {
             return;
         }
         let authResponse = authService.login(email, password);
-        authResponse.then(() => {
+        authResponse.then((data) => {
+            if (data == null){
+                setErrorMsg("You are not an admin");
+                setShowErrorMsg(true);
+                return;
+            }
             console.debug("Successfully logged in");
             navigation.replace("Home");
         }).catch((error) => {

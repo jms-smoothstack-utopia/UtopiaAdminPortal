@@ -1,6 +1,7 @@
 import { environment } from "../environment/environment";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
+import jwt_decode from "jwt-decode";
 
 interface AuthResponse {
   userId: string;
@@ -19,15 +20,20 @@ export class AuthService {
   readonly STORAGE_KEY = "ADMIN_AUTH_DATA";
 
   login(email: string, password: string){
+
     console.debug("Attempting Authentication with ", email);
     console.debug("POSTING to: ", this.LOGIN_URL);
 
-    const postLoginWithAxios = async () => {
+    const postLogin = async () => {
       try {
         const response = await axios.post(this.LOGIN_URL, {
           email: email,
           password: password,
         })
+        let role_list = this.getRolesFromJWT(response.data);
+        if (!role_list.includes("ROLE_ADMIN")){
+          return null;
+        }
         this.handleAuthenticationSuccess(response.data, email);
         return response;
       } catch (error){
@@ -35,7 +41,15 @@ export class AuthService {
         throw error;
       }
     }
-    return postLoginWithAxios();
+    return postLogin();
+  }
+
+  getRolesFromJWT(res: AuthResponse){
+    let jwt = res.token;
+    jwt = jwt.replace("Bearer ", "");
+    let decoded:any = jwt_decode(jwt);
+    const authorities = decoded["Authorities"];
+    return authorities;
   }
 
   handleAuthenticationSuccess(res: AuthResponse, userEmail: string){
