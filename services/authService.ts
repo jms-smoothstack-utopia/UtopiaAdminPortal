@@ -9,6 +9,12 @@ interface AuthResponse {
   expiresAt: number;
 }
 
+export enum USER_ROLES  {
+  ADMIN = "ROLE_ADMIN",
+  EMPLOYEE = "ROLE_EMPLOYEE",
+  CUSTOMER = "ROLE_CUSTOMER",
+};
+
 export class AuthService {
 
   public userId?: string;
@@ -31,13 +37,17 @@ export class AuthService {
           password: password,
         })
         let role_list = this.getRolesFromJWT(response.data);
-        if (!role_list.includes("ROLE_ADMIN")){
-          return null;
+        if (!role_list.includes(USER_ROLES.ADMIN)){
+          if(role_list.includes(USER_ROLES.EMPLOYEE)){
+            this.handleAuthenticationSuccess(response.data, email);
+            return USER_ROLES.EMPLOYEE;
+          }
+          return USER_ROLES.CUSTOMER;
         }
         this.handleAuthenticationSuccess(response.data, email);
-        return response;
+        return USER_ROLES.ADMIN;
       } catch (error){
-        console.debug(error);
+        console.error(error);
         throw error;
       }
     }

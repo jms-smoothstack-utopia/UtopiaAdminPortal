@@ -8,5 +8,6 @@ export const environment = {
   airportsEndpoint: `${hostUrl}/airports`,
   flightsEndpoint: `${hostUrl}/flights`,
   servicingAreaEndpoint: `${hostUrl}/servicing-area`,
+  ticketsEndpoint : `${hostUrl}/tickets`,
   hostUrl: hostUrl,
 };

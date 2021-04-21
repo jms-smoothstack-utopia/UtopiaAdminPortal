@@ -6,19 +6,21 @@ import { createStackNavigator } from '@react-navigation/stack';
 //Components
 import LoginScreen from "./components/LoginScreen";
 import HomeScreen from "./components/HomeScreen";
+import OtherScreen from "./components/OtherScreen";
 import PlaneScreen from "./components/PlaneScreen";
 import FlightScreen from "./components/FlightScreen";
 import CreateAirplaneScreen from "./components/CreateAirplaneScreen";
 import CreateFlightScreen from "./components/CreateFlightScreen";
 import CreateFlightThroughCSV from "./components/CreateFlightThroughCSV";
 import CertainFlightScreen from "./components/CertainFlightScreen";
+import CheckInUserScreen from "./components/CheckInUserScreen";
 
 //Interceptors
 import HttpInterceptors from "./services/HttpInterceptors"
 
 //FontAwesomeIcon
 import { library } from '@fortawesome/fontawesome-svg-core';
-import {  faPlane, faMapPin, faCity, faShuttleVan, faCog, faFilter, faWindowClose } from "@fortawesome/free-solid-svg-icons";
+import {  faPlane, faMapPin, faCity, faShuttleVan, faCog, faFilter, faWindowClose, faReceipt } from "@fortawesome/free-solid-svg-icons";
 
 
 const App = () => {
@@ -27,7 +29,7 @@ const App = () => {
 
   //Add fontAwesomeIcons to library
 
-  library.add(faPlane, faMapPin, faCity, faShuttleVan, faCog, faFilter, faWindowClose);
+  library.add(faPlane, faMapPin, faCity, faShuttleVan, faCog, faFilter, faWindowClose, faReceipt);
 
   //loadingComplete
   if (!isLoadingComplete){
@@ -39,7 +41,9 @@ const App = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Login">
+        <Stack.Screen name="Check-In" component={CheckInUserScreen} options={{headerShown:false}}/>
         <Stack.Screen name="Home" component={HomeScreen} options={{headerShown:false}}/>
+        <Stack.Screen name="Other Screen" component={OtherScreen} options={{headerShown:false}}/>
         <Stack.Screen name="Login" component={LoginScreen} options={{headerShown:false}}/>
         <Stack.Screen name="Airplanes" component={PlaneScreen} />
         <Stack.Screen name="Create Airplane" component={CreateAirplaneScreen}/>

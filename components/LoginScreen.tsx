@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, TextInput, StyleSheet } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import { AuthService } from "../services/AuthService";
+import { AuthService, USER_ROLES } from "../services/AuthService";
 
 //Need to do MediaQuery
 import "@expo/match-media";
@@ -22,12 +22,17 @@ const LoginScreen = ({ navigation }: any) => {
         }
         let authResponse = authService.login(email, password);
         authResponse.then((data) => {
-            if (data == null){
-                setErrorMsg("You are not an admin");
+            if (data == USER_ROLES.CUSTOMER){
+                setErrorMsg("You are not an employee of Utopia");
                 setShowErrorMsg(true);
                 return;
             }
-            console.debug("Successfully logged in");
+            if (data == USER_ROLES.EMPLOYEE){
+                console.debug("Successfully logged in as an employee")
+                navigation.replace("Check-In");
+                return;
+            }
+            console.debug("Successfully logged in as an admin");
             navigation.replace("Home");
         }).catch((error) => {
             console.log("There was an error: " + error);
@@ -54,7 +59,7 @@ const LoginScreen = ({ navigation }: any) => {
     return (
         <View style={styles.container}>
             <LinearGradient colors={['#1508AF', '#8E2AE3']} style={styles.background}>
-                <Text style={styles.titleText}>UTOPIA ADMIN</Text>
+                <Text style={styles.titleText}>UTOPIA PORTAL</Text>
                 {showErrorMsg ? <View style= {isTabletOrMobileDevice? styles.errorBox : styles.desktopViewError}><Text style={styles.errorText}>{errorMsg}</Text></View> : null}
                 <View style= {isTabletOrMobileDevice? styles.inputView : styles.desktopView}>
                     <TextInput

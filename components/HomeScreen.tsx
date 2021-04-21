@@ -23,7 +23,7 @@ const HomeScreen = ({navigation}: any) => {
                 <Text style={styles.buttonText}>Servicing Areas</Text>
                 <FontAwesomeIcon icon="city" size={ 32 }/>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.itemCard}>
+            <TouchableOpacity style={styles.itemCard} onPress={() => navigation.navigate("Other Screen")}>
                 <Text style={styles.buttonText}>Other</Text>
                 <FontAwesomeIcon icon="cog" size={ 32 }/>
             </TouchableOpacity>
